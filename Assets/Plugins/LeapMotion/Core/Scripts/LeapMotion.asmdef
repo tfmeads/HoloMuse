@@ -9,7 +9,7 @@
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": false,
+    "allowUnsafeCode": true,
     "overrideReferences": true,
     "precompiledReferences": [
         "nunit.framework.dll"
@@ -22,5 +22,6 @@
             "expression": "1.0",
             "define": "XR_LEGACY_INPUT_AVAILABLE"
         }
-    ]
+    ],
+    "noEngineReferences": false
 }
