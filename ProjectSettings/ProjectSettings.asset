@@ -628,9 +628,9 @@ PlayerSettings:
   metroPackageVersion: 1.0.2.0
   metroCertificatePath: Assets/WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: Mixed Reality Design Labs
-  metroCertificateIssuer: Mixed Reality Design Labs
-  metroCertificateNotAfter: 801e910a456ad801
+  metroCertificateSubject: Taylor Meads
+  metroCertificateIssuer: Taylor Meads
+  metroCertificateNotAfter: 005939267c78d801
   metroApplicationDescription: PTOE
   wsaImages: {}
   metroTileShortName: HoloMuse

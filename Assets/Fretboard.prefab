@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 945591101826451864}
   - component: {fileID: 945591101826451843}
   - component: {fileID: 945591101826451868}
+  - component: {fileID: 1796521654008197361}
   m_Layer: 0
   m_Name: Fretboard
   m_TagString: Untagged
@@ -162,6 +163,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   elasticsManager: {fileID: 0}
+--- !u!114 &1796521654008197361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 945591101826451865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46e71fe591af64542a21b258eeb697f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &554251675074568794
 PrefabInstance:
   m_ObjectHideFlags: 0
