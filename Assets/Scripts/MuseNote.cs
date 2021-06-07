@@ -45,19 +45,20 @@ public class MuseNote : MonoBehaviour
         note = newNote;
     }
 
+    //Returns string representation
     public string getChromaticNoteAbove()
     {
         NoteValue newNoteVal = pitch + 1;
 
         //Ab is largest value so any larger pitches should roll back to 0
-        if (pitch > NoteValue.Ab)
-            pitch = NoteValue.A;
+        if (newNoteVal > NoteValue.Ab)
+            newNoteVal = NoteValue.A;
 
         //if new note is a C, we are in a new octave (scientific pitch notation)
-        int newNoteOctave = 
+        int newNoteOctave =  
             (newNoteVal == NoteValue.C) ? octave + 1 : octave;
 
-        string result = newNoteVal.ToString() + newNoteOctave.ToString();
+        string result = Enum.GetName(typeof(NoteValue) ,newNoteVal) + newNoteOctave.ToString();
         Debug.Log("Chromatic note above " + note + " is " + result);
 
         return result;

@@ -14,17 +14,12 @@ public class NoteManager : MonoBehaviour
     void Start()
     {
         fretboard = GameObject.Find("Fretboard");
-
         Vector3 size = fretboard.GetComponent<MeshFilter>().mesh.bounds.size;
-        scaleLength = 0;
 
         //Get length of fretboard- use x axis as default asset is on its side
         //Future versions will support user rotating fretboard to vertical or either horizontal position
         if(size != null)
-        {
             scaleLength = size.x * fretboard.transform.localScale.x;
-            Debug.Log("scaleLength = " + scaleLength.ToString());
-        }
         
     
         Transform bubbles = fretboard.transform.Find("OpenStringBubbles");
@@ -46,7 +41,6 @@ public class NoteManager : MonoBehaviour
 
                     //Using scale length and current fret number, calculate distance fret bubble must be translated
                     float fretDistance = scaleLength * MuseUtils.GetFretLocationRatio(i);
-                    Debug.Log("Fret " + i + " = " + fretDistance);
 
                     childNoteGo.transform.Translate(new Vector3(0, -fretDistance));
                     childNoteGo.name = openStringBubble.name.Replace("Open", "Fret" + i);

@@ -46,12 +46,15 @@ public class MuseUtils : MonoBehaviour
         
     }
 
+
+    //Convenience function for accessing fretLocations
     internal static float GetFretLocationRatio(int fret)
     {
+        //Index 0 = Fret #1, first non open note
         int index = fret - 1;
 
         if (index > fretLocations.Length)
-            return -2f;
+            return 0f;
 
         else return fretLocations[index];
     }
