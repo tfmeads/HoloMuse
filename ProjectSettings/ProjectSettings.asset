@@ -630,7 +630,7 @@ PlayerSettings:
   metroCertificatePassword: 
   metroCertificateSubject: Taylor Meads
   metroCertificateIssuer: Taylor Meads
-  metroCertificateNotAfter: 005939267c78d801
+  metroCertificateNotAfter: 808440f68078d801
   metroApplicationDescription: PTOE
   wsaImages: {}
   metroTileShortName: HoloMuse
