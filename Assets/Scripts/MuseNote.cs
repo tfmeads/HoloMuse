@@ -9,6 +9,8 @@ public class MuseNote : MonoBehaviour
     public string note;
 
     public enum NoteValue { A = 0, Bb = 1, B = 2, C = 3, Db = 4, D = 5, Eb = 6, E = 7, F = 8, Gb = 9, G = 10, Ab = 11};
+    public enum Interval {none = 0, m2 = 1, M2 = 2, m3 = 3, M3 = 4, P4 = 5, aug4 = 6, P5 = 7, m6 = 8, M6 = 9, m7 = 10, M7 = 11};
+
 
     private NoteValue pitch;
     private int octave;
@@ -45,7 +47,7 @@ public class MuseNote : MonoBehaviour
         note = newNote;
     }
 
-    //Returns string representation
+    //Returns string representation in scientific pitch notation
     public string getChromaticNoteAbove()
     {
         NoteValue newNoteVal = pitch + 1;
@@ -66,6 +68,21 @@ public class MuseNote : MonoBehaviour
     public NoteValue GetNoteValue()
     {
         return pitch;
+    }
+
+    internal static NoteValue CalculateInterval(NoteValue root, Interval interval)
+    {
+        int newPitch = ((int) root + (int) interval);
+
+        //Ab is largest value so any larger pitches should roll back to 0
+        if (newPitch > (int) NoteValue.Ab)
+            newPitch = (newPitch % (int) NoteValue.Ab) - 1;
+
+        NoteValue result = (NoteValue) newPitch;
+
+        Debug.Log(interval + " of " + root + " is " + result);
+
+        return result;
     }
 
     public static NoteValue GetNoteValueFromString(string input)

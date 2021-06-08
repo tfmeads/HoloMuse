@@ -79,19 +79,48 @@ public class NoteManager : MonoBehaviour
 
     private void DisplayModality(Modality modality)
     {
+        HideAllNoteBubbles();
 
-        if (modality.scaleType >= Modality.ScaleType.RootOnly) { 
-            GameObject[] notes = GameObject.FindGameObjectsWithTag(Enum.GetName(typeof(MuseNote.NoteValue), modality.root));
+        GameObject[] rootNotes = GameObject.FindGameObjectsWithTag(Enum.GetName(typeof(MuseNote.NoteValue), modality.root));
+
+        foreach (GameObject child in rootNotes)
+        {
+            Debug.Log("Found root note " + child.name);
+            Renderer rend = child.GetComponent<Renderer>();
+
+            rend.material.color = Color.red;
+        }
+
+        List<MuseNote.NoteValue> targetNotes = modality.GetNotesForModality();
+
+
+        foreach (MuseNote.NoteValue note in targetNotes)
+        {
+            GameObject[] notes = GameObject.FindGameObjectsWithTag(Enum.GetName(typeof(MuseNote.NoteValue), note));
 
             foreach (GameObject child in notes)
             {
-                Debug.Log("Found note " + child.name);
+                Debug.Log("Found target note " + child.name);
                 Renderer rend = child.GetComponent<Renderer>();
 
-                rend.material.color = Color.red;
+                rend.material.color = Color.blue;
             }
         }
 
+
         modalityDisplayed = true;
+    }
+
+    private void HideAllNoteBubbles()
+    {
+        MuseNote[] notes = GameObject.FindObjectsOfType<MuseNote>();
+
+        Color transparentColor = new Color(0, 0, 0, 0);
+
+        foreach (MuseNote note in notes)
+        {
+            Renderer rend = note.GetComponent<Renderer>();
+            rend.material.SetColor("_Color", transparentColor);
+        }
     }
 }

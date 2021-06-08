@@ -1084,7 +1084,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   root: 7
   chordQuality: 1
-  scaleType: 0
+  scaleType: 1
 --- !u!114 &2092539585
 MonoBehaviour:
   m_ObjectHideFlags: 0
