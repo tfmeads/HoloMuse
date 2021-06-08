@@ -59,14 +59,13 @@ public class MuseNote : MonoBehaviour
             (newNoteVal == NoteValue.C) ? octave + 1 : octave;
 
         string result = Enum.GetName(typeof(NoteValue) ,newNoteVal) + newNoteOctave.ToString();
-        Debug.Log("Chromatic note above " + note + " is " + result);
 
         return result;
     }
 
     public NoteValue GetNoteValue()
     {
-        return GetNoteValueFromString(note);
+        return pitch;
     }
 
     public static NoteValue GetNoteValueFromString(string input)

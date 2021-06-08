@@ -6,10 +6,14 @@ using UnityEngine;
 public class NoteManager : MonoBehaviour
 {
     GameObject fretboard;
+    public GameObject noteBubblePrefab;
     float scaleLength = 0;
     const int TOTAL_FRETS = 24;
 
-    public GameObject noteBubblePrefab;
+    public Modality keyModality;
+
+    //Placeholder til modal UI is developed
+    private bool modalityDisplayed = false;
 
     void Start()
     {
@@ -26,7 +30,6 @@ public class NoteManager : MonoBehaviour
         MuseNote lastNote;
 
         foreach(Transform openStringBubble in bubbles){
-            Debug.Log("Generating child bubbles for " + openStringBubble.name);
 
             MuseNote parentNote = openStringBubble.GetComponent<MuseNote>();
             lastNote = parentNote;
@@ -46,11 +49,13 @@ public class NoteManager : MonoBehaviour
                     childNoteGo.name = openStringBubble.name.Replace("Open", "Fret" + i);
 
                     lastNote = childNoteGo.GetComponent<MuseNote>();
+
+                    //Add tag indicating pitch value so it can easily be found later
+                    childNoteGo.tag = Enum.GetName(typeof(MuseNote.NoteValue), lastNote.GetNoteValue());
                 }
 
             }
         }
-
     }
 
     private GameObject CreateNewNoteBubble(string noteValue)
@@ -66,6 +71,27 @@ public class NoteManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(keyModality != null && !modalityDisplayed)
+        {
+            DisplayModality(keyModality);
+        }
+    }
+
+    private void DisplayModality(Modality modality)
+    {
+
+        if (modality.scaleType >= Modality.ScaleType.RootOnly) { 
+            GameObject[] notes = GameObject.FindGameObjectsWithTag(Enum.GetName(typeof(MuseNote.NoteValue), modality.root));
+
+            foreach (GameObject child in notes)
+            {
+                Debug.Log("Found note " + child.name);
+                Renderer rend = child.GetComponent<Renderer>();
+
+                rend.material.color = Color.red;
+            }
+        }
+
+        modalityDisplayed = true;
     }
 }
