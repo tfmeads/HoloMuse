@@ -19,19 +19,19 @@ public class MuseUtils : MonoBehaviour
         .535f,
         .581f,
         .619f,
-        .66f,  //Fret 12
-        .695f,
-        .731f,
-        .765f,
+        .658f,  //Fret 12
+        .694f,
+        .730f,
+        .763f,
         .79f,
         .82f, //Fret 17
-        .85f,
+        .848f,
         .872f,
-        .9f,   //Fret 20
-        .925f,
-        .947f,
-        .967f,
-        .986f  //Fret 24
+        .895f,   //Fret 20
+        .921f,
+        .943f,
+        .962f,
+        .983f  //Fret 24
     };
 
     // Start is called before the first frame update

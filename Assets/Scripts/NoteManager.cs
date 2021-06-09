@@ -41,7 +41,8 @@ public class NoteManager : MonoBehaviour
                     GameObject childNoteGo = CreateNewNoteBubble(lastNote.getChromaticNoteAbove());
 
                     childNoteGo.transform.position = openStringBubble.transform.position;
-                    childNoteGo.transform.parent = openStringBubble;
+
+                    childNoteGo.transform.SetParent(openStringBubble, true);
 
                     //Using scale length and current fret number, calculate distance fret bubble must be translated
                     float fretDistance = scaleLength * MuseUtils.GetFretLocationRatio(i);
