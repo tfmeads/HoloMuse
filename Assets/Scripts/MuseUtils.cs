@@ -53,7 +53,7 @@ public class MuseUtils : MonoBehaviour
         //Index 0 = Fret #1, first non open note
         int index = fret - 1;
 
-        if (index > fretLocations.Length)
+        if (index > fretLocations.Length || index < 0)
             return 0f;
 
         else return fretLocations[index];

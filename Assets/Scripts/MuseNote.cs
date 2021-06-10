@@ -53,7 +53,7 @@ public class MuseNote : MonoBehaviour
         NoteValue newNoteVal = pitch + 1;
 
         //Ab is largest value so any larger pitches should roll back to 0
-        if (newNoteVal > NoteValue.Ab)
+        if ((int) newNoteVal > (int) NoteValue.Ab)
             newNoteVal = NoteValue.A;
 
         //if new note is a C, we are in a new octave (scientific pitch notation)
@@ -74,7 +74,7 @@ public class MuseNote : MonoBehaviour
     {
         int newPitch = ((int) root + (int) interval);
 
-        //Ab is largest value so any larger pitches should roll back to 0
+        //Reindex pitch if it goes above max value (Ab)
         if (newPitch > (int) NoteValue.Ab)
             newPitch = (newPitch % (int) NoteValue.Ab) - 1;
 
