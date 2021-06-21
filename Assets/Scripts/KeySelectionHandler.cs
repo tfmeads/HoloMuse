@@ -9,6 +9,7 @@ public class KeySelectionHandler : MonoBehaviour, IMixedRealityPointerHandler
     {
         Debug.Log(eventData.ToString());
         Debug.Log(eventData.Pointer.Position.ToString());
+
     }
 
     public void OnPointerDown(MixedRealityPointerEventData eventData)
