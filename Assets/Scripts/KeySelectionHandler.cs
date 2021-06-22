@@ -5,10 +5,20 @@ using UnityEngine;
 
 public class KeySelectionHandler : MonoBehaviour, IMixedRealityPointerHandler
 {
+    
     public void OnPointerClicked(MixedRealityPointerEventData eventData)
     {
-        Debug.Log(eventData.ToString());
-        Debug.Log(eventData.Pointer.Position.ToString());
+        Vector3 clickPos = eventData.Pointer.Position;
+        Vector3 distPos = transform.position - clickPos;
+        Vector3 normPos = distPos.normalized;
+        
+        
+        Debug.Log("Distance: " +
+            distPos.x + "(" + normPos.x + ") ," +
+            distPos.y + "(" + normPos.y + ") ," +
+            distPos.z + "(" + normPos.z + ")"
+            );
+
 
     }
 

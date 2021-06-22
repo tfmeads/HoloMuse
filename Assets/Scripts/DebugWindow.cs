@@ -24,13 +24,10 @@ public class DebugWindow : MonoBehaviour
 
     public void LogMessage(string message, string stackTrace, LogType type)
     {
-        if (textMesh.text.Length > 300)
-        {
-            textMesh.text = message + "\n";
-        }
-        else
-        {
-            textMesh.text += message + "\n";
-        }
+        textMesh.text += message + "\n";
+
+        //Set page to last page available to auto-scroll
+        int numPages = textMesh.textInfo.pageCount;
+        textMesh.pageToDisplay = numPages;
     }
 }
