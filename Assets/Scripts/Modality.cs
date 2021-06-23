@@ -84,4 +84,28 @@ public class Modality : MonoBehaviour
         return null;
     }
 
+    public override bool Equals(object other)
+    {
+        Modality otherModality = (Modality) other;
+        Boolean result;
+
+        if (!root.Equals(otherModality.root))
+            result =  false;
+
+        if (!chordQuality.Equals(otherModality.chordQuality))
+            result =  false;
+
+        if (!scaleType.Equals(otherModality.scaleType))
+            result =  false;
+
+        result =  true;
+
+        return result;
+    }
+
+    public override int GetHashCode()
+    {
+        return root.GetHashCode() + (int)chordQuality + (int)scaleType;
+    }
+
 }

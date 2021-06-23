@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.MixedReality.Toolkit;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,13 +12,14 @@ public class NoteManager : MonoBehaviour
     const int TOTAL_FRETS = 24;
 
     public Modality keyModality;
-
-    //Placeholder til modal UI is developed
-    private bool modalityDisplayed = false;
+    private Modality lastModality;
 
     void Start()
     {
+        //TODO change to transform.parent if NoteManger is always component of Fretboard
         fretboard = GameObject.Find("Fretboard");
+        keyModality = fretboard.GetComponent<Modality>();
+
         Vector3 size = fretboard.GetComponent<MeshFilter>().mesh.bounds.size;
 
         //Get length of fretboard- use x axis as default asset is on its side
@@ -73,14 +75,40 @@ public class NoteManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(keyModality != null && !modalityDisplayed)
-        {
-            DisplayModality(keyModality);
-        }
+ 
     }
 
-    private void DisplayModality(Modality modality)
+    public void SelectKeyCenter(string keyName)
     {
+        MuseNote.NoteValue root;
+        Modality.ChordQuality quality;
+
+        if (keyName.EndsWith("m"))
+        {
+            quality = Modality.ChordQuality.Minor;
+            keyName = keyName.Substring(0, keyName.Length - 1);
+        }
+        else
+            quality = Modality.ChordQuality.Major;
+
+        root = MuseNote.GetNoteValueFromString(keyName);
+
+        Debug.Log("old root= " + keyModality.root);
+
+        lastModality = keyModality;
+
+        keyModality.root = root;
+        keyModality.chordQuality = quality;
+        keyModality.scaleType = Modality.ScaleType.Diatonic;
+
+        Debug.Log("new key = " + keyModality.root + " " + keyModality.chordQuality);
+
+        DisplayModality(keyModality);
+    }
+
+    internal void DisplayModality(Modality modality)
+    {
+
         HideAllNoteBubbles();
 
         GameObject[] rootNotes = GameObject.FindGameObjectsWithTag(Enum.GetName(typeof(MuseNote.NoteValue), modality.root));
@@ -108,9 +136,6 @@ public class NoteManager : MonoBehaviour
                 rend.material.color = Color.blue;
             }
         }
-
-
-        modalityDisplayed = true;
     }
 
     private void HideAllNoteBubbles()
