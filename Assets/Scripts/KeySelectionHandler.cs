@@ -11,6 +11,7 @@ public class KeySelectionHandler : MonoBehaviour
     public GameObject modalityOwner;
 
     Boolean startupKeySelected = false;
+    private readonly string STARTUP_KEY_CENTER = "Em";
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,7 @@ public class KeySelectionHandler : MonoBehaviour
     {
         if (!startupKeySelected)
         {
-            SelectKeyCenter("Em");
+            SelectKeyCenter(STARTUP_KEY_CENTER);
             startupKeySelected = true;
         }
     }
