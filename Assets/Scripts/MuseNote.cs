@@ -80,7 +80,7 @@ public class MuseNote : MonoBehaviour
 
         NoteValue result = (NoteValue) newPitch;
 
-        Debug.Log(interval + " of " + root + " is " + result);
+        //Debug.Log(interval + " of " + root + " is " + result);
 
         return result;
     }

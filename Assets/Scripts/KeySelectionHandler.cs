@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class KeySelectionHandler : MonoBehaviour
@@ -12,6 +13,7 @@ public class KeySelectionHandler : MonoBehaviour
 
     Boolean startupKeySelected = false;
     private readonly string STARTUP_KEY_CENTER = "Em";
+    private readonly string KEY_SELECTION_TITLE_PREFIX = "Key Selection";
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +49,17 @@ public class KeySelectionHandler : MonoBehaviour
     public void SelectKeyCenter(string rootNoteString)
     {
         Debug.Log("Selecting key center " + rootNoteString);
+
+        Transform title = transform.Find("TitleBar/KeySelectionTitle");
+
+        if (title != null)
+        {
+            TextMeshPro titleTv = title.gameObject.GetComponent<TextMeshPro>();
+
+            titleTv.SetText(KEY_SELECTION_TITLE_PREFIX + " (" + rootNoteString + ")");
+        }
+        else
+            Debug.Log("Could not find title for KeySelectionSlate");
 
         modalityOwner.SendMessage("SelectKeyCenter", rootNoteString);
     }
