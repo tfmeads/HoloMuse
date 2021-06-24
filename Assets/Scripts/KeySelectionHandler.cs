@@ -16,7 +16,22 @@ public class KeySelectionHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Transform keyButtons = transform.Find("KeyButtons").transform;
+        if (keyButtons != null)
+        {
+            Color transparentColor = new Color(0, 0, 0, 0);
+
+            foreach (Transform keyBtn in keyButtons)
+            {
+                Renderer[] rends = keyBtn.GetComponentsInChildren<Renderer>();
+
+                foreach(Renderer rend in rends)
+                    rend.material.SetColor("_Color", transparentColor);
+            }
+        }
+        else
+            Debug.Log("KeySelectionSlate not found");
+
     }
 
     // Update is called once per frame

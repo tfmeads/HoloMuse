@@ -12,12 +12,11 @@ public class NoteManager : MonoBehaviour
     const int TOTAL_FRETS = 24;
 
     public Modality keyModality;
-    private Modality lastModality;
 
     void Start()
     {
         //TODO change to transform.parent if NoteManger is always component of Fretboard
-        fretboard = GameObject.Find("Fretboard");
+        fretboard = transform.gameObject;
         keyModality = fretboard.GetComponent<Modality>();
 
         Vector3 size = fretboard.GetComponent<MeshFilter>().mesh.bounds.size;
@@ -93,10 +92,6 @@ public class NoteManager : MonoBehaviour
 
         root = MuseNote.GetNoteValueFromString(keyName);
 
-        Debug.Log("old root= " + keyModality.root);
-
-        lastModality = keyModality;
-
         keyModality.root = root;
         keyModality.chordQuality = quality;
         keyModality.scaleType = Modality.ScaleType.Diatonic;
@@ -115,14 +110,11 @@ public class NoteManager : MonoBehaviour
 
         foreach (GameObject child in rootNotes)
         {
-            Debug.Log("Found root note " + child.name);
             Renderer rend = child.GetComponent<Renderer>();
-
             rend.material.color = Color.red;
         }
 
         List<MuseNote.NoteValue> targetNotes = modality.GetNotesForModality();
-
 
         foreach (MuseNote.NoteValue note in targetNotes)
         {
@@ -130,9 +122,7 @@ public class NoteManager : MonoBehaviour
 
             foreach (GameObject child in notes)
             {
-                Debug.Log("Found target note " + child.name);
                 Renderer rend = child.GetComponent<Renderer>();
-
                 rend.material.color = Color.blue;
             }
         }

@@ -36227,7 +36227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTetherWhenManipulating: 1
-  IsBoundsHandles: 0
+  IsBoundsHandles: 1
 --- !u!82 &5997553069359484670
 AudioSource:
   m_ObjectHideFlags: 0
