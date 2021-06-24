@@ -94,7 +94,7 @@ public class NoteManager : MonoBehaviour
 
         keyModality.root = root;
         keyModality.chordQuality = quality;
-        keyModality.scaleType = Modality.ScaleType.Diatonic;
+        keyModality.scaleType = Modality.ScaleType.Pentatonic;
 
         Debug.Log("new key = " + keyModality.root + " " + keyModality.chordQuality);
 

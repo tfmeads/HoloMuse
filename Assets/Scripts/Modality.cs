@@ -46,7 +46,44 @@ public class Modality : MonoBehaviour
         if (scaleType == RootOnly)
             return results;
 
-        if(scaleType >= Triad)
+        if (scaleType == Diatonic)
+        {
+            //Add every interval possible
+            foreach (IntervalClass ic in Enum.GetValues(typeof(IntervalClass)))
+            {
+                results.Add(GetIntervalNoteValue(ic, intervalDef));
+            }
+        }
+
+        if (scaleType == Pentatonic)
+        {
+            if (chordQuality == Major)
+            {
+                results.Add(GetIntervalNoteValue(IntervalClass.Second, intervalDef));
+                results.Add(GetIntervalNoteValue(IntervalClass.Third, intervalDef));
+                results.Add(GetIntervalNoteValue(IntervalClass.Fifth, intervalDef));
+                results.Add(GetIntervalNoteValue(IntervalClass.Sixth, intervalDef));
+            }
+
+            if (chordQuality == Minor)
+            {
+                results.Add(GetIntervalNoteValue(IntervalClass.Third, intervalDef));
+                results.Add(GetIntervalNoteValue(IntervalClass.Fourth, intervalDef));
+                results.Add(GetIntervalNoteValue(IntervalClass.Fifth, intervalDef));
+                results.Add(GetIntervalNoteValue(IntervalClass.Seventh, intervalDef));
+            }
+
+            //TODO figure out how to handle dim/aug pentatonics
+        }
+
+        if (scaleType == Seventh)
+        {
+            results.Add(GetIntervalNoteValue(IntervalClass.Third, intervalDef));
+            results.Add(GetIntervalNoteValue(IntervalClass.Fifth, intervalDef));
+            results.Add(GetIntervalNoteValue(IntervalClass.Seventh, intervalDef));
+        }
+
+        if (scaleType == Triad)
         {
             results.Add(GetIntervalNoteValue(IntervalClass.Third, intervalDef));
             results.Add(GetIntervalNoteValue(IntervalClass.Fifth, intervalDef));
