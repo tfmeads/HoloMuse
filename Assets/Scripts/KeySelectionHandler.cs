@@ -18,7 +18,7 @@ public class KeySelectionHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Transform keyButtons = transform.Find("KeyButtons").transform;
+        Transform keyButtons = transform.Find("KeySelectionContent/KeyButtons").transform;
         if (keyButtons != null)
         {
             Color transparentColor = new Color(0, 0, 0, 0);
