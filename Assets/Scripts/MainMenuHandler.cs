@@ -15,4 +15,9 @@ public class MainMenuHandler : MonoBehaviour
     {
         
     }
+
+    public void SelectMainMenuTab(string tabTitle)
+    {
+        Debug.Log("Selecting " + tabTitle + " tab");
+    }
 }

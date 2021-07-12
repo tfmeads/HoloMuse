@@ -13,12 +13,11 @@ public class KeySelectionHandler : MonoBehaviour
 
     Boolean startupKeySelected = false;
     private readonly string STARTUP_KEY_CENTER = "Em";
-    private readonly string KEY_SELECTION_TITLE_PREFIX = "Key Selection";
 
     // Start is called before the first frame update
     void Start()
     {
-        Transform keyButtons = transform.Find("KeySelectionContent/KeyButtons").transform;
+        Transform keyButtons = transform.Find("KeyButtons").transform;
         if (keyButtons != null)
         {
             Color transparentColor = new Color(0, 0, 0, 0);
@@ -50,13 +49,13 @@ public class KeySelectionHandler : MonoBehaviour
     {
         Debug.Log("Selecting key center " + rootNoteString);
 
-        Transform title = transform.Find("TitleBar/KeySelectionTitle");
+        Transform title = transform.Find("SelectedKey");
 
         if (title != null)
         {
             TextMeshPro titleTv = title.gameObject.GetComponent<TextMeshPro>();
 
-            titleTv.SetText(KEY_SELECTION_TITLE_PREFIX + " (" + rootNoteString + ")");
+            titleTv.SetText(rootNoteString);
         }
         else
             Debug.Log("Could not find title for KeySelectionSlate");
