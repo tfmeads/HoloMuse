@@ -1,9 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MainMenuHandler : MonoBehaviour
 {
+
+    private readonly string DEFAULT_MAIN_MENU_TAB = "Key Center";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +24,8 @@ public class MainMenuHandler : MonoBehaviour
                 foreach (Renderer rend in rends)
                     rend.material.SetColor("_Color", transparentColor);
             }
+
+            SelectMainMenuTab(DEFAULT_MAIN_MENU_TAB);
         }
         else
             Debug.Log("MainMenuTabBar not found");
@@ -44,9 +51,12 @@ public class MainMenuHandler : MonoBehaviour
         foreach(Transform child in tabBarGo.transform)
         {
             TouchableTab tab = child.GetComponent<TouchableTab>();
-            tab.content.SetActive(tab.name.Equals(tabTitle));
-        }
+            TextMeshPro tmp = child.GetComponent<TextMeshPro>();
 
-        
+            Boolean isTab = tab.name.Equals(tabTitle);
+
+            tab.content.SetActive(isTab);
+            tmp.color = isTab ? Color.green : Color.white;
+        }
     }
 }
