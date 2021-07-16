@@ -7,7 +7,7 @@ using UnityEngine;
 public class MainMenuHandler : MonoBehaviour
 {
 
-    private readonly string DEFAULT_MAIN_MENU_TAB = "Key Center";
+    private readonly string DEFAULT_MAIN_MENU_TAB = "Chord Builder";
 
     // Start is called before the first frame update
     void Start()
