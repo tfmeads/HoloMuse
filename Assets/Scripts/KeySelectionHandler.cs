@@ -60,7 +60,30 @@ public class KeySelectionHandler : MonoBehaviour
         else
             Debug.Log("Could not find title for KeySelectionSlate");
 
-        modalityOwner.SendMessage("SelectKeyCenter", rootNoteString);
+        MuseNote.NoteValue root;
+        Modality.ChordQuality quality;
+        String keyName = rootNoteString;
+
+        if (rootNoteString.EndsWith("m"))
+        {
+            quality = Modality.ChordQuality.Minor;
+            keyName = rootNoteString.Substring(0, rootNoteString.Length - 1);
+        }
+        else
+            quality = Modality.ChordQuality.Major;
+
+        root = MuseNote.GetNoteValueFromString(keyName);
+
+        object[] tempStorage = new object[2];
+        tempStorage[MuseUtils.ARG_ROOT_INDEX] = root;
+        tempStorage[MuseUtils.ARG_QUALITY_INDEX] = quality;
+
+        Debug.Log("root = " + root.ToString());
+        Debug.Log("quality = " + quality.ToString());
+
+        //Send events to fretboard and to child components (Chord Builder)
+        modalityOwner.SendMessage("KeyCenterSelected", tempStorage);
+        SendMessage("KeyCenterSelected", tempStorage);
     }
 
 

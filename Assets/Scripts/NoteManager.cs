@@ -77,26 +77,14 @@ public class NoteManager : MonoBehaviour
  
     }
 
-    public void SelectKeyCenter(string keyName)
+    public void KeyCenterSelected(object[] args)
     {
-        MuseNote.NoteValue root;
-        Modality.ChordQuality quality;
-
-        if (keyName.EndsWith("m"))
-        {
-            quality = Modality.ChordQuality.Minor;
-            keyName = keyName.Substring(0, keyName.Length - 1);
-        }
-        else
-            quality = Modality.ChordQuality.Major;
-
-        root = MuseNote.GetNoteValueFromString(keyName);
+        MuseNote.NoteValue root = (MuseNote.NoteValue) (args[MuseUtils.ARG_ROOT_INDEX]);
+        Modality.ChordQuality quality = (Modality.ChordQuality) (args[MuseUtils.ARG_QUALITY_INDEX]);
 
         keyModality.root = root;
         keyModality.chordQuality = quality;
-        keyModality.scaleType = Modality.ScaleType.Pentatonic;
-
-        Debug.Log("new key = " + keyModality.root + " " + keyModality.chordQuality);
+        keyModality.scaleType = Modality.ScaleType.Diatonic;
 
         DisplayModality(keyModality);
     }

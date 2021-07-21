@@ -6,6 +6,10 @@ using UnityEngine;
 public class MuseUtils : MonoBehaviour
 {
 
+    //Argument indices for SelectKeyCenter messages (See KeySelectionHandler)
+    public static readonly int ARG_ROOT_INDEX = 0;
+    public static readonly int ARG_QUALITY_INDEX = 1;
+
     //Holds the y position of each fret on the fret texture expressed as a ratio of the total length
     private static float[] fretLocations = {
         .078f, 

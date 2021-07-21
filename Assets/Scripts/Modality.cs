@@ -18,7 +18,7 @@ public class Modality : MonoBehaviour
     private readonly MuseNote.Interval[] INTERVAL_DEF_AUG = { m3, M3, P5, m6, none, M7 };
 
     //Human friendly representations for interval def indexes 
-    private enum IntervalClass { Second = 0, Third = 1, Fourth = 2, Fifth = 3, Sixth = 4, Seventh = 5 }
+    public enum IntervalClass {Second = 0, Third = 1, Fourth = 2, Fifth = 3, Sixth = 4, Seventh = 5 }
 
     public MuseNote.NoteValue root;
     public ChordQuality chordQuality;
@@ -37,9 +37,10 @@ public class Modality : MonoBehaviour
 
     }
 
-    //Returns NoteValues representing valid tones in this modality, excluding root.
-    internal List<MuseNote.NoteValue> GetNotesForModality()
-    {
+
+        //Returns NoteValues representing valid tones in this modality, excluding root.
+        public List<MuseNote.NoteValue> GetNotesForModality()
+         {
         List<MuseNote.NoteValue> results = new List<MuseNote.NoteValue>();
         MuseNote.Interval [] intervalDef = GetIntervalDef();
 
@@ -94,10 +95,10 @@ public class Modality : MonoBehaviour
 
     private MuseNote.NoteValue GetIntervalNoteValue(IntervalClass intervalClass, MuseNote.Interval[] intervalDef)
     {
-        MuseNote.Interval interval = intervalDef[(int) intervalClass];
 
-        MuseNote.NoteValue result = MuseNote.CalculateInterval(root, interval);
+        MuseNote.Interval interval = intervalDef[(int)intervalClass];
 
+        MuseNote.NoteValue result = MuseNote.CalculateNoteValueFromInterval(root, interval);
         return result;
      }
 

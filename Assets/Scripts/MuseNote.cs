@@ -70,7 +70,7 @@ public class MuseNote : MonoBehaviour
         return pitch;
     }
 
-    internal static NoteValue CalculateInterval(NoteValue root, Interval interval)
+    internal static NoteValue CalculateNoteValueFromInterval(NoteValue root, Interval interval)
     {
         int newPitch = ((int) root + (int) interval);
 
@@ -81,6 +81,26 @@ public class MuseNote : MonoBehaviour
         NoteValue result = (NoteValue) newPitch;
 
         //Debug.Log(interval + " of " + root + " is " + result);
+
+        return result;
+    }
+
+    public static Interval CalculateIntervalFromNoteValues(NoteValue root, NoteValue other)
+    {
+        int halfStepDifference = 0;
+
+        if(other >= root)
+        {
+            halfStepDifference = (int) other - (int)root;
+        }
+        else
+        {
+            halfStepDifference = ((int)other + (int)Enum.GetValues(typeof(NoteValue)).Length) - (int)root;
+        }
+
+        Debug.Log("half step diff = " + halfStepDifference);
+        Interval result = (Interval)halfStepDifference;
+        Debug.Log("result = " + result);
 
         return result;
     }
