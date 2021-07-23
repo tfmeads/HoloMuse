@@ -24,11 +24,18 @@ public class ChordBuilder : MonoBehaviour
     {
         MuseNote.NoteValue root = (MuseNote.NoteValue)(args[MuseUtils.ARG_ROOT_INDEX]);
         Modality.ChordQuality quality = (Modality.ChordQuality)(args[MuseUtils.ARG_QUALITY_INDEX]);
+        Modality modality = GetComponent<Modality>();
 
-        Modality keyModality = GetComponent<KeySelectionHandler>().modalityOwner.GetComponent<Modality>();
+        List<MuseNote.NoteValue> notes = modality.GetNotesForModality(true);
+
+        String noteStr = "";
+
+        foreach(MuseNote.NoteValue n in notes)
+            noteStr += n.ToString() + ",";
+
+        Debug.Log(root.ToString() + " " + quality.ToString() + ": " + noteStr);
 
         //Populate chord buttons
-
         Transform chordButtons = transform.Find("ChordButtons");
 
         if(chordButtons != null)
@@ -37,28 +44,28 @@ public class ChordBuilder : MonoBehaviour
 
             foreach(Transform chord in chordButtons.transform)
             {
-                string chordName = GetChordNameBuiltOnScaleDegree(keyModality, i++);
+                string chordName = GetChordNameBuiltOnScaleDegree(notes, modality.scaleType, i++);
                 chord.GetComponentInChildren<TextMeshPro>().SetText(chordName);
             }
         }
     }
 
-    private string GetChordNameBuiltOnScaleDegree(Modality keyModality, int rootScaleDegree)
+    private string GetChordNameBuiltOnScaleDegree(List<MuseNote.NoteValue> notes, Modality.ScaleType type, int rootScaleDegree)
     {
-        //TODO generating this list every time may cost too much performance
-        List<MuseNote.NoteValue> notes = keyModality.GetNotesForModality();
-
+       
         MuseNote.NoteValue rootNote = notes[rootScaleDegree];
         string result = rootNote.ToString();
 
-        Debug.Log("building chord based on " + rootNote);
-
-        if(keyModality.scaleType >= Modality.ScaleType.Triad)
+        if(type >= Modality.ScaleType.Triad)
         {
             MuseNote.NoteValue third = notes[(rootScaleDegree + 2) % notes.Count];
-            Debug.Log("third = " + third);
             MuseNote.Interval thirdInterval = MuseNote.CalculateIntervalFromNoteValues(rootNote, third);
-            result += (thirdInterval == MuseNote.Interval.m3 ? "m" : "");
+
+            MuseNote.NoteValue fifth = notes[(rootScaleDegree + 4) % notes.Count];
+            MuseNote.Interval fifthInterval = MuseNote.CalculateIntervalFromNoteValues(rootNote, fifth);
+
+            if(thirdInterval == MuseNote.Interval.m3)
+                result += (fifthInterval == MuseNote.Interval.aug4) ? "dim" : "m";
         }
 
         

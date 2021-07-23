@@ -9,7 +9,9 @@ public class KeySelectionHandler : MonoBehaviour
 {
 
     //GameObject that should recieve modality updates
-    public GameObject modalityOwner;
+    private GameObject fretboard;
+    [HideInInspector]
+    public Modality keyModality;
 
     Boolean startupKeySelected = false;
     private readonly string STARTUP_KEY_CENTER = "Em";
@@ -40,7 +42,11 @@ public class KeySelectionHandler : MonoBehaviour
     {
         if (!startupKeySelected)
         {
+            fretboard = GameObject.Find("Fretboard");
+            keyModality = GetComponent<Modality>();
+
             SelectKeyCenter(STARTUP_KEY_CENTER);
+
             startupKeySelected = true;
         }
     }
@@ -74,6 +80,9 @@ public class KeySelectionHandler : MonoBehaviour
 
         root = MuseNote.GetNoteValueFromString(keyName);
 
+        keyModality.root = root;
+        keyModality.chordQuality = quality;
+
         object[] tempStorage = new object[2];
         tempStorage[MuseUtils.ARG_ROOT_INDEX] = root;
         tempStorage[MuseUtils.ARG_QUALITY_INDEX] = quality;
@@ -82,7 +91,7 @@ public class KeySelectionHandler : MonoBehaviour
         Debug.Log("quality = " + quality.ToString());
 
         //Send events to fretboard and to child components (Chord Builder)
-        modalityOwner.SendMessage("KeyCenterSelected", tempStorage);
+        fretboard.SendMessage("KeyCenterSelected", tempStorage);
         SendMessage("KeyCenterSelected", tempStorage);
     }
 

@@ -38,14 +38,18 @@ public class Modality : MonoBehaviour
     }
 
 
-        //Returns NoteValues representing valid tones in this modality, excluding root.
-        public List<MuseNote.NoteValue> GetNotesForModality()
+        //Returns NoteValues representing valid tones in this modality
+        public List<MuseNote.NoteValue> GetNotesForModality(Boolean includeRoot)
          {
         List<MuseNote.NoteValue> results = new List<MuseNote.NoteValue>();
-        MuseNote.Interval [] intervalDef = GetIntervalDef();
+
+        if(includeRoot)
+            results.Add(root);
 
         if (scaleType == RootOnly)
             return results;
+
+        MuseNote.Interval [] intervalDef = GetIntervalDef();
 
         if (scaleType == Diatonic)
         {

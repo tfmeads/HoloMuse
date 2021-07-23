@@ -43073,9 +43073,10 @@ GameObject:
   - component: {fileID: 1822510960}
   - component: {fileID: 1822510959}
   - component: {fileID: 1822510958}
-  - component: {fileID: 1822510961}
   - component: {fileID: 1822510963}
   - component: {fileID: 1822510962}
+  - component: {fileID: 1822510961}
+  - component: {fileID: 1822510964}
   m_Layer: 0
   m_Name: ChordBuilderContent
   m_TagString: Untagged
@@ -43261,7 +43262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9810be78b8fac574aababe8817b5b4ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  modalityOwner: {fileID: 2092539583}
+  keyModality: {fileID: 0}
 --- !u!222 &1822510962
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -43282,6 +43283,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967912e28494f684aa7995908d785a70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1822510964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822510956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e76085b6cd6d254687055a70a47cb93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  root: 7
+  chordQuality: 1
+  scaleType: 4
 --- !u!1 &1839493329
 GameObject:
   m_ObjectHideFlags: 0
@@ -48847,7 +48863,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noteBubblePrefab: {fileID: 7567987050381290127, guid: d410c0d5f82661548b562a6e6f3b318f,
     type: 3}
-  keyModality: {fileID: 2092539584}
+  displayModality: {fileID: 0}
 --- !u!114 &2092539586
 MonoBehaviour:
   m_ObjectHideFlags: 0
