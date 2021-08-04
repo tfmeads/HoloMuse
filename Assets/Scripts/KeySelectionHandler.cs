@@ -7,9 +7,9 @@ using UnityEngine;
 
 public class KeySelectionHandler : MonoBehaviour
 {
+    [HideInInspector]
+    public NoteManager noteManager;
 
-    //GameObject that should recieve modality updates
-    private GameObject fretboard;
     [HideInInspector]
     public Modality keyModality;
 
@@ -42,7 +42,9 @@ public class KeySelectionHandler : MonoBehaviour
     {
         if (!startupKeySelected)
         {
-            fretboard = GameObject.Find("Fretboard");
+            GameObject fretboard = GameObject.Find("Fretboard");
+            noteManager = fretboard.GetComponent<NoteManager>();
+
             keyModality = GetComponent<Modality>();
 
             SelectKeyCenter(STARTUP_KEY_CENTER);
@@ -83,16 +85,18 @@ public class KeySelectionHandler : MonoBehaviour
         keyModality.root = root;
         keyModality.chordQuality = quality;
 
-        object[] tempStorage = new object[2];
+        object[] tempStorage = new object[3];
         tempStorage[MuseUtils.ARG_ROOT_INDEX] = root;
         tempStorage[MuseUtils.ARG_QUALITY_INDEX] = quality;
+        tempStorage[MuseUtils.ARG_SCALE_INDEX] = Modality.ScaleType.Diatonic;
 
         Debug.Log("root = " + root.ToString());
         Debug.Log("quality = " + quality.ToString());
 
         //Send events to fretboard and to child components (Chord Builder)
-        fretboard.SendMessage("KeyCenterSelected", tempStorage);
-        SendMessage("KeyCenterSelected", tempStorage);
+
+        noteManager.UpdateModality(keyModality);
+        GetComponent<ChordBuilder>().UpdateModality(keyModality);
     }
 
 

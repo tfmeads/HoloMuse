@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Security.AccessControl;
 using TMPro;
 using UnityEngine;
+using static MuseNote;
 
 public class ChordBuilder : MonoBehaviour
 {
@@ -20,20 +21,15 @@ public class ChordBuilder : MonoBehaviour
         
     }
 
-    public void KeyCenterSelected(object[] args)
+    public void UpdateModality(Modality newModality)
     {
-        MuseNote.NoteValue root = (MuseNote.NoteValue)(args[MuseUtils.ARG_ROOT_INDEX]);
-        Modality.ChordQuality quality = (Modality.ChordQuality)(args[MuseUtils.ARG_QUALITY_INDEX]);
         Modality modality = GetComponent<Modality>();
 
+        modality.root = newModality.root;
+        modality.chordQuality = newModality.chordQuality;
+        modality.scaleType = newModality.scaleType;
+
         List<MuseNote.NoteValue> notes = modality.GetNotesForModality(true);
-
-        String noteStr = "";
-
-        foreach(MuseNote.NoteValue n in notes)
-            noteStr += n.ToString() + ",";
-
-        Debug.Log(root.ToString() + " " + quality.ToString() + ": " + noteStr);
 
         //Populate chord buttons
         Transform chordButtons = transform.Find("ChordButtons");
@@ -42,12 +38,39 @@ public class ChordBuilder : MonoBehaviour
         {
             int i = 0;
 
-            foreach(Transform chord in chordButtons.transform)
+            foreach(Transform chordButton in chordButtons.transform)
             {
                 string chordName = GetChordNameBuiltOnScaleDegree(notes, modality.scaleType, i++);
-                chord.GetComponentInChildren<TextMeshPro>().SetText(chordName);
+                chordButton.GetComponentInChildren<TextMeshPro>().SetText(chordName);
+
+                //Update modality info based on chord
+                Modality chordModality = chordButton.GetComponent<Modality>();
+
+                if (chordName.EndsWith("dim"))
+                {
+                    chordModality.chordQuality = Modality.ChordQuality.Diminished;
+                    chordModality.root = (NoteValue)Enum.Parse(typeof(NoteValue), chordName.Substring(0, chordName.Length - 3));
+                }
+                else if (chordName.EndsWith("m"))
+                {
+                    chordModality.chordQuality = Modality.ChordQuality.Minor;
+                    chordModality.root = (NoteValue) Enum.Parse(typeof(NoteValue), chordName.Substring(0, chordName.Length - 1));
+                }
+                else {
+                    chordModality.chordQuality = Modality.ChordQuality.Major;
+                    chordModality.root = (NoteValue)Enum.Parse(typeof(NoteValue), chordName);
+                }
+
+                chordModality.scaleType = Modality.ScaleType.Triad;
             }
         }
+    }
+
+    public void SelectChord(GameObject button)
+    {
+        Modality targetModality = button.GetComponent<Modality>();
+
+        GetComponent<KeySelectionHandler>().noteManager.UpdateModality(targetModality);
     }
 
     private string GetChordNameBuiltOnScaleDegree(List<MuseNote.NoteValue> notes, Modality.ScaleType type, int rootScaleDegree)

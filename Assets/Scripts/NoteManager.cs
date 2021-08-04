@@ -77,14 +77,11 @@ public class NoteManager : MonoBehaviour
  
     }
 
-    public void KeyCenterSelected(object[] args)
+    public void UpdateModality(Modality newModality)
     {
-        MuseNote.NoteValue root = (MuseNote.NoteValue) (args[MuseUtils.ARG_ROOT_INDEX]);
-        Modality.ChordQuality quality = (Modality.ChordQuality) (args[MuseUtils.ARG_QUALITY_INDEX]);
-
-        displayModality.root = root;
-        displayModality.chordQuality = quality;
-        displayModality.scaleType = Modality.ScaleType.Diatonic;
+        displayModality.root = newModality.root;
+        displayModality.chordQuality = newModality.chordQuality;
+        displayModality.scaleType = newModality.scaleType;
 
         DisplayModality(displayModality);
     }
