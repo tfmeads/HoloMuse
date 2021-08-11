@@ -78,6 +78,12 @@ public class ChordBuilder : MonoBehaviour
 
     public void SelectChord(GameObject button)
     {
+        if(lastSelectedButton == button)
+        {
+            Debug.Log("Adding " + button.name + " to progression");
+
+        }
+
         Modality targetModality = button.GetComponent<Modality>();
 
         GetComponent<KeySelectionHandler>().noteManager.UpdateModality(targetModality);
