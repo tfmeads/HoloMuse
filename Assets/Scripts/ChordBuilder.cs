@@ -69,6 +69,11 @@ public class ChordBuilder : MonoBehaviour
                 chordModality.scaleType = Modality.ScaleType.Triad;
             }
         }
+
+
+        //Reset selected button state
+        SetButtonSelected(lastSelectedButton, false);
+        lastSelectedButton = null;
     }
 
     public void SelectChord(GameObject button)
