@@ -9,6 +9,11 @@ using static MuseNote;
 
 public class ChordBuilder : MonoBehaviour
 {
+
+    public Material selectedMat, unselectedMat;
+
+    private GameObject lastSelectedButton;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -71,6 +76,24 @@ public class ChordBuilder : MonoBehaviour
         Modality targetModality = button.GetComponent<Modality>();
 
         GetComponent<KeySelectionHandler>().noteManager.UpdateModality(targetModality);
+
+        SetButtonSelected(lastSelectedButton, false);
+        SetButtonSelected(button, true);
+
+        lastSelectedButton = button;
+    }
+
+    private void SetButtonSelected(GameObject button, Boolean selected)
+    {
+        if (button != null)
+        {
+            GameObject backPlate = button.transform.Find("BackPlate/Quad").gameObject;
+
+            if (backPlate != null)
+            {
+                backPlate.GetComponent<MeshRenderer>().material = selected ? selectedMat : unselectedMat;
+            }
+        }
     }
 
     private string GetChordNameBuiltOnScaleDegree(List<MuseNote.NoteValue> notes, Modality.ScaleType type, int rootScaleDegree)
@@ -90,7 +113,6 @@ public class ChordBuilder : MonoBehaviour
             if(thirdInterval == MuseNote.Interval.m3)
                 result += (fifthInterval == MuseNote.Interval.aug4) ? "dim" : "m";
         }
-
         
 
         return result;

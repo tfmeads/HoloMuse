@@ -99,7 +99,7 @@ public class MuseNote : MonoBehaviour
         }
 
         Debug.Log("half step diff = " + halfStepDifference);
-        Interval result = (Interval)halfStepDifference;
+        Interval result = (Interval) halfStepDifference;
         Debug.Log("result = " + result);
 
         return result;
@@ -109,7 +109,7 @@ public class MuseNote : MonoBehaviour
     {
         //TODO handle sharps and automatically convert them to flats
 
-        return (NoteValue)Enum.Parse(typeof(NoteValue), input);
+        return (NoteValue) Enum.Parse(typeof(NoteValue), input);
     }
 
     public override string ToString()

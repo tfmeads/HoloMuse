@@ -11968,6 +11968,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6326842415924641645, guid: 9215a7c858170d74fb2257375d5feaf1,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ec72a3a105768f746b556a8dfdae61a8, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9215a7c858170d74fb2257375d5feaf1, type: 3}
 --- !u!4 &552048152 stripped
@@ -13569,7 +13574,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 24.439936, y: 0.86946785, z: -17.126322, w: -0.50207186}
+  m_margin: {x: 24.439936, y: 0.86946785, z: -16.28906, w: -0.50207186}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -21571,6 +21576,7 @@ GameObject:
   - component: {fileID: 925006193}
   - component: {fileID: 925006192}
   - component: {fileID: 925006199}
+  - component: {fileID: 925006200}
   m_Layer: 0
   m_Name: V_ChordButton
   m_TagString: Untagged
@@ -22098,6 +22104,18 @@ MonoBehaviour:
   root: 0
   chordQuality: 0
   scaleType: 0
+--- !u!122 &925006200
+Halo:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925006190}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4286611584
+  m_Size: 10
 --- !u!1 &933732469
 GameObject:
   m_ObjectHideFlags: 0
@@ -26497,7 +26515,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 24.439936, y: 0.86946785, z: -17.126322, w: -0.50207186}
+  m_margin: {x: 24.439936, y: 0.86946785, z: -16.388405, w: -0.50207186}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -43358,6 +43376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9810be78b8fac574aababe8817b5b4ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noteManager: {fileID: 0}
   keyModality: {fileID: 0}
 --- !u!222 &1822510962
 CanvasRenderer:
@@ -43379,6 +43398,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967912e28494f684aa7995908d785a70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedMat: {fileID: 2100000, guid: de1892d400ee48e46aed127ce6d99ca0, type: 2}
+  unselectedMat: {fileID: 2100000, guid: ec72a3a105768f746b556a8dfdae61a8, type: 2}
 --- !u!114 &1822510964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46950,6 +46971,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6326842415924641645, guid: 9215a7c858170d74fb2257375d5feaf1,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ec72a3a105768f746b556a8dfdae61a8, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9215a7c858170d74fb2257375d5feaf1, type: 3}
 --- !u!4 &1968686149 stripped
