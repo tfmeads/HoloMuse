@@ -14,6 +14,9 @@ public class ChordBuilder : MonoBehaviour
 
     private GameObject lastSelectedButton;
 
+    public ActiveProgressionManager ActiveProgressionManager;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +26,7 @@ public class ChordBuilder : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
 
     public void UpdateModality(Modality newModality)
@@ -78,20 +81,23 @@ public class ChordBuilder : MonoBehaviour
 
     public void SelectChord(GameObject button)
     {
-        if(lastSelectedButton == button)
-        {
-            Debug.Log("Adding " + button.name + " to progression");
-
-        }
-
         Modality targetModality = button.GetComponent<Modality>();
 
-        GetComponent<KeySelectionHandler>().noteManager.UpdateModality(targetModality);
+        if (lastSelectedButton == button)
+        {
+            Debug.Log("Adding " + button.name + " to progression");
+ 
+            ActiveProgressionManager.AddChord(targetModality);
+        }
+        else {
 
-        SetButtonSelected(lastSelectedButton, false);
-        SetButtonSelected(button, true);
+            GetComponent<KeySelectionHandler>().noteManager.UpdateModality(targetModality);
 
-        lastSelectedButton = button;
+            SetButtonSelected(lastSelectedButton, false);
+            SetButtonSelected(button, true);
+
+            lastSelectedButton = button;
+        }
     }
 
     private void SetButtonSelected(GameObject button, Boolean selected)

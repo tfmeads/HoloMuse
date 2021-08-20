@@ -126,6 +126,52 @@ public class Modality : MonoBehaviour
         return null;
     }
 
+    public override string ToString()
+    {
+      
+        String result = root.ToString();
+
+        result += GetChordQualitySuffix();
+        result += GetExtensionSuffix();
+
+        return result;
+    }
+
+    public string GetChordQualitySuffix()
+    {
+        String result = "";
+
+        if(scaleType >= Triad)
+        {
+            if (chordQuality == Minor)
+                result = "m";
+            if (chordQuality == Diminished)
+                result = "dim";
+            if (chordQuality == Augmented)
+                result = "aug";
+        }
+
+        if(scaleType >= Seventh)
+        {
+            if (chordQuality == Major)
+                result = "maj";
+        }
+
+        return result;
+    }
+
+    public string GetExtensionSuffix()
+    {
+        String result = "";
+
+        if(scaleType == Seventh)
+        {
+            result = "7";
+        }
+
+        return result;
+    }
+
     public override bool Equals(object other)
     {
         Modality otherModality = (Modality) other;
