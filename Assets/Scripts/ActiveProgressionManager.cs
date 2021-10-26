@@ -32,6 +32,7 @@ public class ActiveProgressionManager : MonoBehaviour
         Debug.Log("Add Chord " + targetModality.ToString());
         GameObject btnGo = Instantiate(chordButtonPrefab) as GameObject;
         btnGo.transform.position = chordGrid.transform.position;
+        btnGo.transform.rotation = chordGrid.transform.rotation;
         btnGo.transform.SetParent(chordGrid.transform);
 
         Debug.Log("Button " + btnGo.name + " created");
