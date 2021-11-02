@@ -11,6 +11,10 @@ public class ActiveProgressionManager : MonoBehaviour
 
     private GridObjectCollection chordGrid;
 
+    Boolean isStarted = false;
+    
+    public GameObject startStopBtn;
+
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +26,33 @@ public class ActiveProgressionManager : MonoBehaviour
     void Update()
     {
        
+    }
+
+    public void HandleStartStopButton()
+    {
+
+        if (startStopBtn != null)
+        {
+            isStarted = !isStarted;
+            startStopBtn.GetComponentInChildren<TextMeshPro>().SetText(isStarted ? "Stop" : "Start");
+        }
+        else
+        {
+            Debug.Log("StartStopButton not found");
+            return;
+        }
+
+        if (!isStarted)
+        {
+            //Start metronome routine
+            Debug.Log("Starting metronome");
+        }
+        else
+        {
+            //Stop metronome routine
+            Debug.Log("Stopping metronome");
+        }
+        
     }
 
     internal void AddChord(Modality targetModality)
