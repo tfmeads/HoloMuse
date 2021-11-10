@@ -1,4 +1,5 @@
-﻿using Microsoft.MixedReality.Toolkit.Utilities;
+﻿using Microsoft.MixedReality.Toolkit.UI;
+using Microsoft.MixedReality.Toolkit.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ using UnityEngine;
 public class ActiveProgressionManager : MonoBehaviour
 {
     public GameObject chordButtonPrefab;
+
+    public MaterialLibrary matLib;
 
     private GridObjectCollection chordGrid;
 
@@ -28,6 +31,9 @@ public class ActiveProgressionManager : MonoBehaviour
     private readonly int BPM_MAXIMUM = 333;
 
     private AudioSource metronome;
+    private GameObject lastSelectedButton;
+    private bool startupComplete;
+    private NoteManager noteManager;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +44,11 @@ public class ActiveProgressionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        if (!startupComplete)
+        {
+            GameObject fretboard = GameObject.Find("Fretboard");
+            noteManager = fretboard.GetComponent<NoteManager>();
+        }
     }
 
     public void HandleStartStopButton()
@@ -134,6 +144,36 @@ public class ActiveProgressionManager : MonoBehaviour
 
         btnGo.GetComponentInChildren<TextMeshPro>().SetText(btnModality.ToString());
 
+        btnGo.GetComponent<Interactable>().OnClick.AddListener( delegate { SelectChordButton(btnGo); });
+
         chordGrid.UpdateCollection();
     }
+
+    internal void SelectChordButton(GameObject btnGo)
+    {
+        if(lastSelectedButton == btnGo)
+        {
+            MuseUtils.SetButtonSelected(btnGo, false, matLib);
+            lastSelectedButton = null;
+        }
+        else
+        {
+            if (lastSelectedButton != null)
+                MuseUtils.SetButtonSelected(lastSelectedButton, false, matLib);
+
+            MuseUtils.SetButtonSelected(btnGo, true, matLib);
+
+            Modality modality = btnGo.GetComponent<Modality>();
+
+            if (modality != null)
+                noteManager.UpdateModality(modality);
+            else
+                Debug.LogError("No modality found for " + btnGo);
+
+            lastSelectedButton = btnGo;
+        }
+        
+    }
+
 }
+
