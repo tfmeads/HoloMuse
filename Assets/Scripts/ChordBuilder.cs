@@ -9,13 +9,10 @@ using static MuseNote;
 
 public class ChordBuilder : MonoBehaviour
 {
-
-    public Material selectedMat, unselectedMat;
-
     private GameObject lastSelectedButton;
 
     public ActiveProgressionManager ActiveProgressionManager;
-
+    public MaterialLibrary matLib;
 
     // Start is called before the first frame update
     void Start()
@@ -75,7 +72,7 @@ public class ChordBuilder : MonoBehaviour
 
 
         //Reset selected button state
-        SetButtonSelected(lastSelectedButton, false);
+        MuseUtils.SetButtonSelected(lastSelectedButton, false, matLib);
         lastSelectedButton = null;
     }
 
@@ -93,23 +90,10 @@ public class ChordBuilder : MonoBehaviour
 
             GetComponent<KeySelectionHandler>().noteManager.UpdateModality(targetModality);
 
-            SetButtonSelected(lastSelectedButton, false);
-            SetButtonSelected(button, true);
+            MuseUtils.SetButtonSelected(lastSelectedButton, false, matLib);
+            MuseUtils.SetButtonSelected(button, true, matLib);
 
             lastSelectedButton = button;
-        }
-    }
-
-    private void SetButtonSelected(GameObject button, Boolean selected)
-    {
-        if (button != null)
-        {
-            GameObject backPlate = button.transform.Find("BackPlate/Quad").gameObject;
-
-            if (backPlate != null)
-            {
-                backPlate.GetComponent<MeshRenderer>().material = selected ? selectedMat : unselectedMat;
-            }
         }
     }
 

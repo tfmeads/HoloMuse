@@ -551,7 +551,7 @@ MonoBehaviour:
         m_CallState: 2
   movingButtonIconText: {fileID: 0}
   compressableButtonVisuals: {fileID: 5128600366440249720}
-  minCompressPercentage: 0.25
+  minCompressPercentage: 0.503
   highlightPlate: {fileID: 5128600365197892714}
   highlightPlateAnimationTime: 0.25
 --- !u!114 &5128600366410005755
@@ -1212,6 +1212,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6326842415924641645, guid: 9215a7c858170d74fb2257375d5feaf1,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f9326c3bd04b792498b7ba61c1aaeeb9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9215a7c858170d74fb2257375d5feaf1, type: 3}
 --- !u!4 &5696643286144637380 stripped

@@ -39,10 +39,12 @@ public class MuseUtils : MonoBehaviour
         .983f  //Fret 24
     };
 
+    //Materials used for selecting buttons
+    public Material selectedMat, unselectedMat;
+
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -63,4 +65,23 @@ public class MuseUtils : MonoBehaviour
 
         else return fretLocations[index];
     }
+
+
+    public static void SetButtonSelected(GameObject button, Boolean selected, MaterialLibrary matLib)
+    {
+        if (button != null)
+        {
+            GameObject backPlate = button.transform.Find("BackPlate/Quad").gameObject;
+
+            if (backPlate != null)
+            {
+              
+               backPlate.GetComponent<MeshRenderer>().material = selected ? matLib.materials[1] : matLib.materials[0];
+                
+            }
+        }
+    }
+
+
+
 }

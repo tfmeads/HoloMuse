@@ -14312,6 +14312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chordButtonPrefab: {fileID: 5128600366410005756, guid: b9206cf47de257d47a9d0df3aa2fdc2f,
     type: 3}
+  matLib: {fileID: 11400000, guid: 3143c91d161438f489cd2a85ef21ee9c, type: 2}
   startStopBtn: {fileID: 2139340013}
   activeBPM: 60
 --- !u!82 &620070723
@@ -44134,9 +44135,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967912e28494f684aa7995908d785a70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedMat: {fileID: 2100000, guid: de1892d400ee48e46aed127ce6d99ca0, type: 2}
-  unselectedMat: {fileID: 2100000, guid: ec72a3a105768f746b556a8dfdae61a8, type: 2}
   ActiveProgressionManager: {fileID: 620070722}
+  matLib: {fileID: 11400000, guid: 3143c91d161438f489cd2a85ef21ee9c, type: 2}
 --- !u!114 &1822510964
 MonoBehaviour:
   m_ObjectHideFlags: 0
