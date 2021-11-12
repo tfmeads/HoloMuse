@@ -9,20 +9,22 @@ using UnityEngine;
 public class ActiveProgressionManager : MonoBehaviour
 {
     public GameObject chordButtonPrefab;
+    public GameObject startStopBtn;
+    private GridObjectCollection chordGrid;
 
     public MaterialLibrary matLib;
 
-    private GridObjectCollection chordGrid;
+    //Is progression active, i.e is metronome running
+    bool isActive = false;
+    private bool startupComplete;
 
-    Boolean isStarted = false;
     
-    public GameObject startStopBtn;
 
 
     //Think of as top number in time signature. Currently hardcoded to 4/4
     private int beatsPerMeasure = 4;
 
-    //Represents what beat we're currently in. incremented by metronome and reset to 1 every measure
+    //Represents what beat we're currently in. incremented by metronome and reset to 1 upon new measure
     private int currentBeat = 1;
 
     //Beats per minute of metronome
@@ -31,9 +33,18 @@ public class ActiveProgressionManager : MonoBehaviour
     private readonly int BPM_MAXIMUM = 333;
 
     private AudioSource metronome;
-    private GameObject lastSelectedButton;
-    private bool startupComplete;
+    
+    
     private NoteManager noteManager;
+
+    //Chord currently selected during active progression
+    private GameObject activeChord;
+    private int activeChordIndex;
+
+    private GameObject[] chordButtonList;
+    private GameObject lastSelectedButton;
+    private int lastSelectedButtonIndex;
+   
 
     // Start is called before the first frame update
     void Start()
@@ -62,13 +73,26 @@ public class ActiveProgressionManager : MonoBehaviour
 
         metronome = GetComponent<AudioSource>();
 
-        if (!isStarted)
+        if (!isActive)
         {
             //Start metronome routine
             Debug.Log("Starting metronome");
 
+
+            BuildProgressionChordList();
+           
+
+            if(lastSelectedButton != null)
+            {
+                MuseUtils.SetButtonSelected(lastSelectedButton, false, matLib);
+            }
+
             try
             {
+                currentBeat = 1;
+                SetActiveChordButton(chordButtonList[lastSelectedButtonIndex]);
+                activeChordIndex = lastSelectedButtonIndex;
+
                 InvokeRepeating(nameof(MetronomeTick), 0, GetQuarterNoteIntervalForBPM(activeBPM));
             }
             catch(Exception e)
@@ -82,18 +106,81 @@ public class ActiveProgressionManager : MonoBehaviour
             //Stop metronome routine
             Debug.Log("Stopping metronome");
             CancelInvoke(nameof(MetronomeTick));
+
+            //Re-select last saved user-selected button
+            if (lastSelectedButton != null)
+            {
+                MuseUtils.SetButtonSelected(lastSelectedButton, true, matLib);
+            }
+
+            //Clear active chord status
+            if(activeChord != null)
+            {
+                if(activeChord != lastSelectedButton)
+                    MuseUtils.SetButtonSelected(activeChord, false, matLib);
+
+                activeChord = null;
+            }
         }
 
-        isStarted = !isStarted;
-        startStopBtn.GetComponentInChildren<TextMeshPro>().SetText(isStarted ? "Stop" : "Start");
+        isActive = !isActive;
+        startStopBtn.GetComponentInChildren<TextMeshPro>().SetText(isActive ? "Stop" : "Start");
+    }
+
+    //Build array of ChordButton GameObjects so they can be easily accessed while progression is running
+    private void BuildProgressionChordList()
+    {
+        IReadOnlyList<ObjectCollectionNode> nodes = chordGrid.NodeListReadOnly;
+
+        chordButtonList = new GameObject[nodes.Count];
+
+        int count = 0;
+
+        foreach (ObjectCollectionNode node in nodes)
+        {
+            GameObject btn = node.Transform.gameObject;
+
+            if (lastSelectedButton != null && lastSelectedButton == btn)
+            {
+                lastSelectedButtonIndex = count;
+                Debug.Log("Index of selected button is " + lastSelectedButtonIndex);
+            }
+
+            chordButtonList[count++] = btn;
+        }
     }
 
     internal void MetronomeTick()
     {
+        //New measure, go to next chord
         if (currentBeat > beatsPerMeasure)
+        {
             currentBeat = 1;
+            SetActiveChordButton(chordButtonList[GetNextChordIndex()]);
+        }
 
-        if(currentBeat == 1)
+        PlayTickAudio();
+
+        currentBeat++;
+    }
+
+    private int GetNextChordIndex()
+    {
+        ++activeChordIndex;
+
+        if(activeChordIndex >= chordButtonList.Length)
+        {
+            activeChordIndex = 0;
+        }
+
+        Debug.Log("Active chord = " + activeChordIndex + chordButtonList[activeChordIndex].GetComponentInChildren<TextMeshPro>().text);
+
+        return activeChordIndex;
+    }
+
+    private void PlayTickAudio()
+    {
+        if (currentBeat == 1)
         {
             metronome.pitch = 2;
             metronome.volume = 1;
@@ -105,9 +192,6 @@ public class ActiveProgressionManager : MonoBehaviour
             metronome.volume = .8f;
             metronome.Play();
         }
-
-
-        currentBeat++;
     }
 
     //returns float representing number of seconds = 1 quarter note tick at specified BPM
@@ -149,30 +233,51 @@ public class ActiveProgressionManager : MonoBehaviour
         chordGrid.UpdateCollection();
     }
 
+    //For when users manually select chord buttons
     internal void SelectChordButton(GameObject btnGo)
     {
-        if(lastSelectedButton == btnGo)
-        {
-            MuseUtils.SetButtonSelected(btnGo, false, matLib);
-            lastSelectedButton = null;
-        }
+        if (isActive)
+            Debug.Log("Can't select Chord Buttons while progression is active.");
         else
         {
-            if (lastSelectedButton != null)
-                MuseUtils.SetButtonSelected(lastSelectedButton, false, matLib);
-
-            MuseUtils.SetButtonSelected(btnGo, true, matLib);
-
-            Modality modality = btnGo.GetComponent<Modality>();
-
-            if (modality != null)
-                noteManager.UpdateModality(modality);
+            if (lastSelectedButton == btnGo)
+            {
+                MuseUtils.SetButtonSelected(btnGo, false, matLib);
+                lastSelectedButton = null;
+            }
             else
-                Debug.LogError("No modality found for " + btnGo);
+            {
+                if (lastSelectedButton != null)
+                    MuseUtils.SetButtonSelected(lastSelectedButton, false, matLib);
 
-            lastSelectedButton = btnGo;
+                MuseUtils.SetButtonSelected(btnGo, true, matLib);
+
+                Modality modality = btnGo.GetComponent<Modality>();
+
+                if (modality != null)
+                    noteManager.UpdateModality(modality);
+                else
+                    Debug.LogError("No modality found for " + btnGo);
+
+                lastSelectedButton = btnGo;
+            }
         }
+    }
+
+    //Select chord button while moving through active progression
+    private void SetActiveChordButton(GameObject btnGo)
+    {
+        if(activeChord != null)
+            MuseUtils.SetButtonSelected(activeChord, false, matLib);
         
+        activeChord = btnGo;
+
+        MuseUtils.SetButtonSelected(activeChord, true, matLib);
+
+        Modality modality = activeChord.GetComponent<Modality>();
+
+        noteManager.UpdateModality(modality);
+
     }
 
 }

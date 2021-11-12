@@ -86,7 +86,7 @@ public class NoteManager : MonoBehaviour
         DisplayModality(displayModality);
     }
 
-    internal void DisplayModality(Modality modality)
+    private void DisplayModality(Modality modality)
     {
 
         HideAllNoteBubbles();
