@@ -38,64 +38,64 @@ public class Modality : MonoBehaviour
     }
 
 
-        //Returns NoteValues representing valid tones in this modality
-        public List<MuseNote.NoteValue> GetNotesForModality(Boolean includeRoot)
-         {
-        List<MuseNote.NoteValue> results = new List<MuseNote.NoteValue>();
+    //Returns NoteValues representing valid tones in this modality
+    public List<MuseNote.NoteValue> GetNotesForModality(Boolean includeRoot){
 
-        if(includeRoot)
-            results.Add(root);
+    List<MuseNote.NoteValue> results = new List<MuseNote.NoteValue>();
 
-        if (scaleType == RootOnly)
-            return results;
+    if(includeRoot)
+        results.Add(root);
 
-        MuseNote.Interval [] intervalDef = GetIntervalDef();
+    if (scaleType == RootOnly)
+        return results;
 
-        if (scaleType == Diatonic)
+    MuseNote.Interval [] intervalDef = GetIntervalDef();
+
+    if (scaleType == Diatonic)
+    {
+        //Add every interval possible
+        foreach (IntervalClass ic in Enum.GetValues(typeof(IntervalClass)))
         {
-            //Add every interval possible
-            foreach (IntervalClass ic in Enum.GetValues(typeof(IntervalClass)))
-            {
-                results.Add(GetIntervalNoteValue(ic, intervalDef));
-            }
+            results.Add(GetIntervalNoteValue(ic, intervalDef));
+        }
+    }
+
+    if (scaleType == Pentatonic)
+    {
+        if (chordQuality == Major)
+        {
+            results.Add(GetIntervalNoteValue(IntervalClass.Second, intervalDef));
+            results.Add(GetIntervalNoteValue(IntervalClass.Third, intervalDef));
+            results.Add(GetIntervalNoteValue(IntervalClass.Fifth, intervalDef));
+            results.Add(GetIntervalNoteValue(IntervalClass.Sixth, intervalDef));
         }
 
-        if (scaleType == Pentatonic)
-        {
-            if (chordQuality == Major)
-            {
-                results.Add(GetIntervalNoteValue(IntervalClass.Second, intervalDef));
-                results.Add(GetIntervalNoteValue(IntervalClass.Third, intervalDef));
-                results.Add(GetIntervalNoteValue(IntervalClass.Fifth, intervalDef));
-                results.Add(GetIntervalNoteValue(IntervalClass.Sixth, intervalDef));
-            }
-
-            if (chordQuality == Minor)
-            {
-                results.Add(GetIntervalNoteValue(IntervalClass.Third, intervalDef));
-                results.Add(GetIntervalNoteValue(IntervalClass.Fourth, intervalDef));
-                results.Add(GetIntervalNoteValue(IntervalClass.Fifth, intervalDef));
-                results.Add(GetIntervalNoteValue(IntervalClass.Seventh, intervalDef));
-            }
-
-            //TODO figure out how to handle dim/aug pentatonics
-        }
-
-        if (scaleType == Seventh)
+        if (chordQuality == Minor)
         {
             results.Add(GetIntervalNoteValue(IntervalClass.Third, intervalDef));
+            results.Add(GetIntervalNoteValue(IntervalClass.Fourth, intervalDef));
             results.Add(GetIntervalNoteValue(IntervalClass.Fifth, intervalDef));
             results.Add(GetIntervalNoteValue(IntervalClass.Seventh, intervalDef));
         }
 
-        if (scaleType == Triad)
-        {
-            results.Add(GetIntervalNoteValue(IntervalClass.Third, intervalDef));
-            results.Add(GetIntervalNoteValue(IntervalClass.Fifth, intervalDef));
-        }
-
-        return results;
+        //TODO figure out how to handle dim/aug pentatonics
     }
+
+    if (scaleType == Seventh)
+    {
+        results.Add(GetIntervalNoteValue(IntervalClass.Third, intervalDef));
+        results.Add(GetIntervalNoteValue(IntervalClass.Fifth, intervalDef));
+        results.Add(GetIntervalNoteValue(IntervalClass.Seventh, intervalDef));
+    }
+
+    if (scaleType == Triad)
+    {
+        results.Add(GetIntervalNoteValue(IntervalClass.Third, intervalDef));
+        results.Add(GetIntervalNoteValue(IntervalClass.Fifth, intervalDef));
+    }
+
+    return results;
+}
 
     private MuseNote.NoteValue GetIntervalNoteValue(IntervalClass intervalClass, MuseNote.Interval[] intervalDef)
     {

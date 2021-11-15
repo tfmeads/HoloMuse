@@ -16,10 +16,8 @@ public class ActiveProgressionManager : MonoBehaviour
 
     //Is progression active, i.e is metronome running
     bool isActive = false;
+
     private bool startupComplete;
-
-    
-
 
     //Think of as top number in time signature. Currently hardcoded to 4/4
     private int beatsPerMeasure = 4;
@@ -27,13 +25,15 @@ public class ActiveProgressionManager : MonoBehaviour
     //Represents what beat we're currently in. incremented by metronome and reset to 1 upon new measure
     private int currentBeat = 1;
 
+    //Which beat to start interpolating to next modality
+    private readonly int START_INTERPOLATE_BEAT = 3;
+
     //Beats per minute of metronome
     public int activeBPM = 60;
     private readonly int BPM_MINIMUM = 33;
     private readonly int BPM_MAXIMUM = 333;
-
-    private AudioSource metronome;
     
+    private AudioSource metronome;
     
     private NoteManager noteManager;
 
@@ -152,30 +152,33 @@ public class ActiveProgressionManager : MonoBehaviour
 
     internal void MetronomeTick()
     {
+        PlayTickAudio();
+
         //New measure, go to next chord
         if (currentBeat > beatsPerMeasure)
         {
             currentBeat = 1;
-            SetActiveChordButton(chordButtonList[GetNextChordIndex()]);
+            activeChordIndex = GetNextChordIndex();
+            SetActiveChordButton(chordButtonList[activeChordIndex]);
         }
 
-        PlayTickAudio();
+        if(currentBeat == START_INTERPOLATE_BEAT)
+        {
+            Modality nextModality = chordButtonList[GetNextChordIndex()].GetComponent<Modality>();
+            noteManager.InterpolateToModality(nextModality);
+        }
 
         currentBeat++;
     }
 
     private int GetNextChordIndex()
     {
-        ++activeChordIndex;
+        int result = activeChordIndex + 1;
 
-        if(activeChordIndex >= chordButtonList.Length)
-        {
-            activeChordIndex = 0;
-        }
+        if (result >= chordButtonList.Length)
+            result = 0;
 
-        Debug.Log("Active chord = " + activeChordIndex + chordButtonList[activeChordIndex].GetComponentInChildren<TextMeshPro>().text);
-
-        return activeChordIndex;
+        return result;
     }
 
     private void PlayTickAudio()
@@ -255,7 +258,7 @@ public class ActiveProgressionManager : MonoBehaviour
                 Modality modality = btnGo.GetComponent<Modality>();
 
                 if (modality != null)
-                    noteManager.UpdateModality(modality);
+                    noteManager.SetModality(modality);
                 else
                     Debug.LogError("No modality found for " + btnGo);
 
@@ -276,8 +279,7 @@ public class ActiveProgressionManager : MonoBehaviour
 
         Modality modality = activeChord.GetComponent<Modality>();
 
-        noteManager.UpdateModality(modality);
-
+        noteManager.SetModality(modality);
     }
 
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static MuseNote;
 
 public class NoteManager : MonoBehaviour
 {
@@ -54,7 +55,7 @@ public class NoteManager : MonoBehaviour
                     lastNote = childNoteGo.GetComponent<MuseNote>();
 
                     //Add tag indicating pitch value so it can easily be found later
-                    childNoteGo.tag = Enum.GetName(typeof(MuseNote.NoteValue), lastNote.GetNoteValue());
+                    childNoteGo.tag = Enum.GetName(typeof(NoteValue), lastNote.GetNoteValue());
                 }
 
             }
@@ -77,7 +78,7 @@ public class NoteManager : MonoBehaviour
  
     }
 
-    public void UpdateModality(Modality newModality)
+    public void SetModality(Modality newModality)
     {
         displayModality.root = newModality.root;
         displayModality.chordQuality = newModality.chordQuality;
@@ -91,7 +92,7 @@ public class NoteManager : MonoBehaviour
 
         HideAllNoteBubbles();
 
-        GameObject[] rootNotes = GameObject.FindGameObjectsWithTag(Enum.GetName(typeof(MuseNote.NoteValue), modality.root));
+        GameObject[] rootNotes = GameObject.FindGameObjectsWithTag(Enum.GetName(typeof(NoteValue), modality.root));
 
         foreach (GameObject child in rootNotes)
         {
@@ -99,11 +100,11 @@ public class NoteManager : MonoBehaviour
             rend.material.color = Color.red;
         }
 
-        List<MuseNote.NoteValue> targetNotes = modality.GetNotesForModality(false);
+        List<NoteValue> targetNotes = modality.GetNotesForModality(false);
 
-        foreach (MuseNote.NoteValue note in targetNotes)
+        foreach (NoteValue note in targetNotes)
         {
-            GameObject[] notes = GameObject.FindGameObjectsWithTag(Enum.GetName(typeof(MuseNote.NoteValue), note));
+            GameObject[] notes = GameObject.FindGameObjectsWithTag(Enum.GetName(typeof(NoteValue), note));
 
             foreach (GameObject child in notes)
             {

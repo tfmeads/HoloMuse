@@ -88,7 +88,7 @@ public class ChordBuilder : MonoBehaviour
         }
         else {
 
-            GetComponent<KeySelectionHandler>().noteManager.UpdateModality(targetModality);
+            GetComponent<KeySelectionHandler>().noteManager.SetModality(targetModality);
 
             MuseUtils.SetButtonSelected(lastSelectedButton, false, matLib);
             MuseUtils.SetButtonSelected(button, true, matLib);

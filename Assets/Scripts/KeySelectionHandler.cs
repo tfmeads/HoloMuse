@@ -95,7 +95,7 @@ public class KeySelectionHandler : MonoBehaviour
 
         //Send events to fretboard and to child components (Chord Builder)
 
-        noteManager.UpdateModality(keyModality);
+        noteManager.SetModality(keyModality);
         GetComponent<ChordBuilder>().UpdateModality(keyModality);
     }
 
