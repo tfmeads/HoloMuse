@@ -10,13 +10,12 @@ public class NoteManager : MonoBehaviour
     GameObject fretboard;
     public GameObject noteBubblePrefab;
     float scaleLength = 0;
-    const int TOTAL_FRETS = 24;
+    public const int TOTAL_FRETS = 24;
 
     public Modality displayModality;
 
     void Start()
     {
-        //TODO change to transform.parent if NoteManger is always component of Fretboard
         fretboard = transform.gameObject;
         displayModality = fretboard.GetComponent<Modality>();
 
