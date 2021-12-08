@@ -87,23 +87,36 @@ public class MuseNote : MonoBehaviour
 
     public static Interval CalculateIntervalFromNoteValues(NoteValue root, NoteValue other)
     {
-        int halfStepDifference = 0;
+        int halfStepDifference = CalculateAscendingHalfStepDifference(root, other);
 
-        if(other >= root)
-        {
-            halfStepDifference = (int) other - (int)root;
-        }
-        else
-        {
-            halfStepDifference = ((int)other + (int)Enum.GetValues(typeof(NoteValue)).Length) - (int)root;
-        }
+        Interval result = (Interval)halfStepDifference;
 
-        Debug.Log("half step diff = " + halfStepDifference);
-        Interval result = (Interval) halfStepDifference;
-        Debug.Log("result = " + result);
+        Debug.Log(result);
 
         return result;
     }
+
+
+    //Calculates half-step difference of two notes ascending-only (useful for determining interval)
+    public static int CalculateAscendingHalfStepDifference(NoteValue note1, NoteValue note2)
+    {
+        int halfStepDifference = 0;
+
+        if (note2 >= note1)
+        {
+            halfStepDifference = (int)note2 - (int)note1;
+        }
+        else
+        {
+            halfStepDifference = ((int)note2 + (int)Enum.GetValues(typeof(NoteValue)).Length) - (int)note1;
+        }
+
+        Debug.Log(note1 + " -> " + note2 + " : " + halfStepDifference);
+
+        return halfStepDifference;
+    }
+
+  
 
     public static NoteValue GetNoteValueFromString(string input)
     {

@@ -126,4 +126,44 @@ public class NoteManager : MonoBehaviour
             rend.material.SetColor("_Color", transparentColor);
         }
     }
+
+    
+    internal void InterpolateToModality(Modality modality)
+    {
+        List<NoteValue> currentNotes = displayModality.GetNotesForModality(true);
+        List<NoteValue> newNotes = modality.GetNotesForModality(true);
+
+        List<NoteValue> interpolateNotes = new List<NoteValue>(); 
+
+        foreach(NoteValue note in currentNotes)
+        {
+            //Holds smallest difference in half-steps found between current notes and new notes
+            int smallestDiff = 99999;
+
+            foreach(NoteValue otherNote in newNotes)
+            {
+                int halfStepDiff = CalculateAscendingHalfStepDifference(note, otherNote);
+                
+                if(halfStepDiff < smallestDiff)
+                {
+                    smallestDiff = halfStepDiff;
+                    interpolateNotes.Clear();
+                }
+
+                if (halfStepDiff == smallestDiff)
+                    interpolateNotes.Add(otherNote);
+            }
+
+            InterpolateNote(note, interpolateNotes);
+        }
+    }
+
+    //Create translucent bubble that moves from source note to target notes and gradually becomes more visible
+    private void InterpolateNote(NoteValue note, List<NoteValue> interpolateNotes)
+    {
+        foreach(NoteValue otherNote in interpolateNotes)
+        {
+            //Debug.Log("Interpolating " + note + " to " + otherNote);
+        }
+    }
 }
