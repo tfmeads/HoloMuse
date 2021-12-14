@@ -8,12 +8,13 @@ public class MuseNote : MonoBehaviour
     //String representation of the note in Scientific Pitch Notation
     public string note;
 
-    public enum NoteValue { A = 0, Bb = 1, B = 2, C = 3, Db = 4, D = 5, Eb = 6, E = 7, F = 8, Gb = 9, G = 10, Ab = 11};
+    private static readonly int TOTAL_NOTES = 12;
+    public enum NoteValue { C = 0, Db = 1, D = 2, Eb = 3, E = 4, F = 5, Gb = 6, G = 7, Ab = 8, A = 9, Bb = 10, B = 11};
     public enum Interval {none = 0, m2 = 1, M2 = 2, m3 = 3, M3 = 4, P4 = 5, aug4 = 6, P5 = 7, m6 = 8, M6 = 9, m7 = 10, M7 = 11};
-
 
     private NoteValue pitch;
     private int octave;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -52,9 +53,9 @@ public class MuseNote : MonoBehaviour
     {
         NoteValue newNoteVal = pitch + 1;
 
-        //Ab is largest value so any larger pitches should roll back to 0
-        if ((int) newNoteVal > (int) NoteValue.Ab)
-            newNoteVal = NoteValue.A;
+        //B is largest value so any larger pitches should roll back to C / 0
+        if ((int) newNoteVal > (int) NoteValue.B)
+            newNoteVal = NoteValue.C;
 
         //if new note is a C, we are in a new octave (scientific pitch notation)
         int newNoteOctave =  
@@ -72,11 +73,7 @@ public class MuseNote : MonoBehaviour
 
     internal static NoteValue CalculateNoteValueFromInterval(NoteValue root, Interval interval)
     {
-        int newPitch = ((int) root + (int) interval);
-
-        //Reindex pitch if it goes above max value (Ab)
-        if (newPitch > (int) NoteValue.Ab)
-            newPitch = (newPitch % (int) NoteValue.Ab) - 1;
+        int newPitch = ((int)root + (int)interval) % TOTAL_NOTES;
 
         NoteValue result = (NoteValue) newPitch;
 
@@ -108,7 +105,7 @@ public class MuseNote : MonoBehaviour
         }
         else
         {
-            halfStepDifference = ((int)note2 + (int)Enum.GetValues(typeof(NoteValue)).Length) - (int)note1;
+            halfStepDifference = ((int)note2 + TOTAL_NOTES) - (int)note1;
         }
 
         Debug.Log(note1 + " -> " + note2 + " : " + halfStepDifference);
