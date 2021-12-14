@@ -141,7 +141,7 @@ public class NoteManager : MonoBehaviour
 
             foreach(NoteValue otherNote in newNotes)
             {
-                int halfStepDiff = CalculateAscendingHalfStepDifference(note, otherNote);
+                int halfStepDiff = CalculateAbsoluteHalfStepDifference(note, otherNote);
                 
                 if(halfStepDiff < smallestDiff)
                 {
@@ -162,7 +162,7 @@ public class NoteManager : MonoBehaviour
     {
         foreach(NoteValue otherNote in interpolateNotes)
         {
-            //Debug.Log("Interpolating " + note + " to " + otherNote);
+            Debug.Log("Interpolating " + note + " to " + otherNote);
         }
     }
 }

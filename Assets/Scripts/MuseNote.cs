@@ -86,7 +86,7 @@ public class MuseNote : MonoBehaviour
     {
         int halfStepDifference = CalculateAscendingHalfStepDifference(root, other);
 
-        Interval result = (Interval)halfStepDifference;
+        Interval result = (Interval) halfStepDifference;
 
         Debug.Log(result);
 
@@ -108,12 +108,38 @@ public class MuseNote : MonoBehaviour
             halfStepDifference = ((int)note2 + TOTAL_NOTES) - (int)note1;
         }
 
-        Debug.Log(note1 + " -> " + note2 + " : " + halfStepDifference);
+        return halfStepDifference;
+    }
+
+    //Calculates half-step difference of two notes descending-only 
+    public static int CalculateDescendingHalfStepDifference(NoteValue note1, NoteValue note2)
+    {
+        int halfStepDifference = 0;
+
+        if (note1 >= note2)
+        {
+            halfStepDifference = (int)note1 - (int)note2;
+        }
+        else
+        {
+            halfStepDifference = ((int)note1 + TOTAL_NOTES) - (int) note1;
+        }
 
         return halfStepDifference;
     }
 
-  
+    //Calculates minimum half-step difference between two notes
+    public static int CalculateAbsoluteHalfStepDifference(NoteValue note1, NoteValue note2)
+    {
+        int accDiff = CalculateAscendingHalfStepDifference(note1, note2);
+        int decDiff = CalculateDescendingHalfStepDifference(note1, note2);
+
+        int halfStepDifference = accDiff < decDiff ? accDiff : decDiff; 
+
+        Debug.Log(note1 + " -> " + note2 + " : " + halfStepDifference);
+
+        return halfStepDifference;
+    }
 
     public static NoteValue GetNoteValueFromString(string input)
     {
