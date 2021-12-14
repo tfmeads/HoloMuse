@@ -38,7 +38,7 @@ public class ActiveProgressionManager : MonoBehaviour
     private NoteManager noteManager;
 
     //Chord currently selected during active progression
-    private GameObject activeChord;
+    private GameObject activeChordButton;
     private int activeChordIndex;
 
     private GameObject[] chordButtonList;
@@ -90,8 +90,6 @@ public class ActiveProgressionManager : MonoBehaviour
             try
             {
                 currentBeat = 1;
-                SetActiveChordButton(chordButtonList[lastSelectedButtonIndex]);
-                activeChordIndex = lastSelectedButtonIndex;
 
                 InvokeRepeating(nameof(MetronomeTick), 0, GetQuarterNoteIntervalForBPM(activeBPM));
             }
@@ -114,12 +112,12 @@ public class ActiveProgressionManager : MonoBehaviour
             }
 
             //Clear active chord status
-            if(activeChord != null)
+            if(activeChordButton != null)
             {
-                if(activeChord != lastSelectedButton)
-                    MuseUtils.SetButtonSelected(activeChord, false, matLib);
+                if(activeChordButton != lastSelectedButton)
+                    MuseUtils.SetButtonSelected(activeChordButton, false, matLib);
 
-                activeChord = null;
+                activeChordButton = null;
             }
         }
 
@@ -175,6 +173,11 @@ public class ActiveProgressionManager : MonoBehaviour
 
     private int GetNextChordIndex()
     {
+        //If there is no active chord, default to last selected. 
+        //If last selected is null, will default to 0 (start of chord list)
+        if (activeChordButton == null)
+            return lastSelectedButtonIndex;
+
         int result = activeChordIndex + 1;
 
         if (result >= chordButtonList.Length)
@@ -273,14 +276,14 @@ public class ActiveProgressionManager : MonoBehaviour
     //Select chord button while moving through active progression
     private void SetActiveChordButton(GameObject btnGo)
     {
-        if(activeChord != null)
-            MuseUtils.SetButtonSelected(activeChord, false, matLib);
+        if(activeChordButton != null)
+            MuseUtils.SetButtonSelected(activeChordButton, false, matLib);
         
-        activeChord = btnGo;
+        activeChordButton = btnGo;
 
-        MuseUtils.SetButtonSelected(activeChord, true, matLib);
+        MuseUtils.SetButtonSelected(activeChordButton, true, matLib);
 
-        Modality modality = activeChord.GetComponent<Modality>();
+        Modality modality = activeChordButton.GetComponent<Modality>();
 
         noteManager.SetModality(modality);
     }
