@@ -29,7 +29,7 @@ public class DebugWindow : MonoBehaviour
         int totalPages = contentText.textInfo.pageCount;
         int currPage = contentText.pageToDisplay;
 
-        titleText.SetText("Debug (" + currPage + 1 + "/" + totalPages + ")");
+        titleText.SetText("Debug (" + ((int) currPage + 1) + "/" + ((int) totalPages + 1) + ")");
     }
 
     private void HandlePageDown()
