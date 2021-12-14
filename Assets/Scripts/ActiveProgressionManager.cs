@@ -152,12 +152,14 @@ public class ActiveProgressionManager : MonoBehaviour
 
     internal void MetronomeTick()
     {
+        if (currentBeat > beatsPerMeasure)
+            currentBeat = 1;
+
         PlayTickAudio();
 
         //New measure, go to next chord
-        if (currentBeat > beatsPerMeasure)
+        if (currentBeat == 1)
         {
-            currentBeat = 1;
             activeChordIndex = GetNextChordIndex();
             SetActiveChordButton(chordButtonList[activeChordIndex]);
         }
@@ -183,6 +185,7 @@ public class ActiveProgressionManager : MonoBehaviour
 
     private void PlayTickAudio()
     {
+        Debug.Log("PlayTick beat= " + currentBeat + " / " + beatsPerMeasure);
         if (currentBeat == 1)
         {
             metronome.pitch = 2;
