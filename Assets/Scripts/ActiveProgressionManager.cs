@@ -165,7 +165,18 @@ public class ActiveProgressionManager : MonoBehaviour
         if(currentBeat == START_INTERPOLATE_BEAT)
         {
             Modality nextModality = chordButtonList[GetNextChordIndex()].GetComponent<Modality>();
-            noteManager.InterpolateToModality(nextModality);
+
+            //Set lerp time equal to time it takes to get to next 'Beat 1'
+            float lerpTime = Time.time + GetQuarterNoteIntervalForBPM(activeBPM) * ((beatsPerMeasure - START_INTERPOLATE_BEAT) + 1);
+
+            try
+            {
+                noteManager.InterpolateToModality(nextModality, lerpTime);
+            }
+            catch( Exception e)
+            {
+                Debug.Log(e.Message);
+            }
         }
 
         currentBeat++;

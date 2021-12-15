@@ -7,11 +7,11 @@ using static MuseNote;
 
 public class NoteManager : MonoBehaviour
 {
+
     GameObject fretboard;
-    public GameObject noteBubblePrefab;
+    public GameObject noteBubblePrefab, ghostBubblePrefab;
     float scaleLength = 0;
     public const int TOTAL_FRETS = 24;
-
     public Modality displayModality;
 
     void Start()
@@ -127,7 +127,7 @@ public class NoteManager : MonoBehaviour
     }
 
     
-    internal void InterpolateToModality(Modality modality)
+    internal void InterpolateToModality(Modality modality, float lerpTime)
     {
         List<NoteValue> currentNotes = displayModality.GetNotesForModality(true);
         List<NoteValue> newNotes = modality.GetNotesForModality(true);
@@ -153,16 +153,68 @@ public class NoteManager : MonoBehaviour
                     interpolateNotes.Add(otherNote);
             }
 
-            InterpolateNote(note, interpolateNotes);
+            InterpolateNote(note, interpolateNotes, lerpTime, smallestDiff);
         }
     }
 
-    //Create translucent bubble that moves from source note to target notes and gradually becomes more visible
-    private void InterpolateNote(NoteValue note, List<NoteValue> interpolateNotes)
+    //Create translucent bubble that moves from source note to target notes
+    private void InterpolateNote(NoteValue note, List<NoteValue> interpolateNotes, float lerpTime, int halfStepDifference)
     {
-        foreach(NoteValue otherNote in interpolateNotes)
+
+        GameObject[] rootNotes = GameObject.FindGameObjectsWithTag(Enum.GetName(typeof(NoteValue), note));
+
+        foreach (GameObject noteBubble in rootNotes)
         {
-            Debug.Log("Interpolating " + note + " to " + otherNote);
+            foreach(NoteValue otherNote in interpolateNotes)
+            {
+                Debug.Log("Interpolating " + note + " to " + otherNote);
+                GameObject ghostNote = Instantiate(ghostBubblePrefab) as GameObject;
+
+                ghostNote.transform.position = noteBubble.transform.position;
+
+                ghostNote.transform.SetParent(noteBubble.transform, true);
+
+                GameObject nearestTargetBubble = GetNearestTargetBubble(noteBubble, otherNote, halfStepDifference);
+
+                if (nearestTargetBubble != null)
+                    ghostNote.GetComponent<GhostNote>().StartLerp(noteBubble, nearestTargetBubble, lerpTime, Color.green);
+                else
+                    Debug.Log("No suitable target bubble found");
+            }
         }
+    }
+
+    //Find target Note bubble that is closest to given  note
+    private GameObject GetNearestTargetBubble(GameObject noteBubble, NoteValue otherNote, int halfStepDifference)
+    {
+        Debug.Log("GetNearestTargetBubble(" + otherNote + ")");
+
+        Transform parent = noteBubble.transform.parent.transform;
+        int index = noteBubble.transform.GetSiblingIndex();
+
+        //First check if parent (Open Note bubble) is valid
+        if(parent.gameObject.GetComponent<MuseNote>().GetNoteValue() == otherNote)
+        {
+            return parent.gameObject;
+        }
+
+        //Check if either sibling offset by given half step difference are valid. Note bubbles are added in ascending order which makes this possible
+        if(parent.childCount > (index + halfStepDifference))
+        {
+            GameObject otherBubble = parent.GetChild(index + halfStepDifference).gameObject;
+
+            if (otherBubble != null && otherBubble.GetComponent<MuseNote>().GetNoteValue() == otherNote)
+                return otherBubble;
+        }
+
+        if((index - halfStepDifference) >= 0)
+        {
+            GameObject otherBubble = parent.GetChild(index - halfStepDifference).gameObject;
+
+            if (otherBubble != null && otherBubble.GetComponent<MuseNote>().GetNoteValue() == otherNote)
+                return otherBubble;
+        }
+
+        return null;
     }
 }

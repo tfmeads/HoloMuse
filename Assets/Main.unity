@@ -15982,7 +15982,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 657968862}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.692, y: 0.458, z: 2.109}
+  m_LocalPosition: {x: 0.692, y: 0.458, z: 2.547}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 147550497}
@@ -21856,7 +21856,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 908962322}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2.085}
+  m_LocalPosition: {x: 0, y: 0, z: 2.488}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 967960620}
@@ -21865,7 +21865,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.537, y: 0.413}
+  m_AnchoredPosition: {x: -0.395, y: 0.394}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &925006190
@@ -50090,6 +50090,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noteBubblePrefab: {fileID: 7567987050381290127, guid: d410c0d5f82661548b562a6e6f3b318f,
     type: 3}
+  ghostBubblePrefab: {fileID: 3998261359976463239, guid: fcb6c5f0bbae81747b357df7eab78225,
+    type: 3}
   displayModality: {fileID: 0}
 --- !u!114 &2092539586
 MonoBehaviour:
@@ -50217,7 +50219,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092539583}
   m_LocalRotation: {x: 0, y: -0, z: 0.7071068, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: -0.03, z: 2.2316}
+  m_LocalPosition: {x: 0.12, y: -0.03, z: 2.663}
   m_LocalScale: {x: 1, y: 0.16, z: 1}
   m_Children:
   - {fileID: 1928397884}
